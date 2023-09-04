@@ -4,9 +4,9 @@ name: Pipeline Testes Automatizados API partner - ERP Postman Automation API Tes
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    branches: [ "master" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "main" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -37,16 +37,8 @@ jobs:
         run: newman run ./partner-ci-collection.json -e ./partner-ci-develop-environment.json --reporters cli, -r htmlextra --reporter-htmlextra-export ./docs/index.html
 
       # Runs a set of commands using the runners shell
-      - name: Step 4 Archive Production artifacts
-        if: ${{ always() }} # This ensures the step runs even if the previous steps fail
+      - name: Step 4 Archive production artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: report
-          path: ./docs/index.html
-
-      - name: Step 5 Deploy do Report.html
-        if: ${{ always() }}
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          publish_dir: ./docs
+              name: report
+              path: ./result/Report.html
